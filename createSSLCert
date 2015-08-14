@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cert_host=zhou-desktop
+export CERT_PASS=changeit
+
+openssl genrsa -des3 -passout env:CERT_PASS -out ${cert_host}.key 1024
+openssl req -new -key ${cert_host}.key -x509 -out ${cert_host}-selfsigned.crt -days 1825 -passin env:CERT_PASS -subj '/C=US/ST=California/L=Emeryville/O=Wavemarket Inc./OU=Security Team/CN='${cert_host}
+openssl pkcs12 -export -in ${cert_host}-selfsigned.crt -inkey ${cert_host}.key -out ${cert_host}-selfsigned.p12 -name ${cert_host} -passin env:CERT_PASS -passout env:CERT_PASS
