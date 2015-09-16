@@ -55,9 +55,12 @@ alias readlink="greadlink"
 alias xcode="open -a Xcode"
 
 ## java home
-export JAVA_VERSION="1.8"
-export JAVA_OPTS=-Dfile.encoding=UTF-8
-export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_45.jdk/Contents/Home
+export JAVA_VERSION=1.8
+if /usr/libexec/java_home -v$JAVA_VERSION &> /dev/null; then
+    export JAVA_HOME=`/usr/libexec/java_home -v$JAVA_VERSION`
+    # Groovy on the mac defaults to MacRoman encoding
+    export JAVA_OPTS=-Dfile.encoding=UTF-8
+fi
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "/Users/zhou/.gvm/bin/gvm-init.sh" ]] && source "/Users/zhou/.gvm/bin/gvm-init.sh"
